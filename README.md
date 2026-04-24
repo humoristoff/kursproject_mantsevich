@@ -1,4 +1,3 @@
-https://drive.google.com/drive/folders/1wnKgbufr9MPyRxQ3Ei86VdmXwDPp9DFS
 # Классификатор культурных орнаментов
 
 ## Сборка exe
