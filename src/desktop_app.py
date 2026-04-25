@@ -8,9 +8,7 @@ import sys
 import csv
 from datetime import datetime
 
-# ====================================================
 # Определение путей к модели
-# ====================================================
 if getattr(sys, 'frozen', False):
     base_path = os.path.dirname(sys.executable)
 else:
@@ -19,9 +17,7 @@ else:
 model_path = os.path.join(base_path, "vit_jones19_model")
 processor_path = os.path.join(base_path, "vit_jones19_processor")
 
-# ====================================================
 # Классы культурных стилей (19)
-# ====================================================
 class_names = [
     'Arabian', 'Byzantine', 'Celtic', 'Chinese', 'Egyptian',
     'Elizabethan', 'Greek', 'Hindoo', 'Indian', 'Italian',
@@ -29,9 +25,7 @@ class_names = [
     'Pompeian', 'Renaissance', 'Roman', 'Savage Tribes', 'Turkish'
 ]
 
-# ====================================================
 # Функция сохранения результатов в CSV (UTF-8 с BOM для Excel)
-# ====================================================
 def save_to_csv(image_path, results):
     """Сохраняет результат классификации в CSV файл (UTF-8-sig для Excel)"""
     csv_file = "classification_history.csv"
@@ -54,18 +48,14 @@ def save_to_csv(image_path, results):
             f"{top3_name} ({top3_prob:.1%})"
         ])
 
-# ====================================================
 # Загрузка модели
-# ====================================================
 print("Загрузка модели...")
 processor = AutoImageProcessor.from_pretrained(processor_path, local_files_only=True)
 model = AutoModelForImageClassification.from_pretrained(model_path, local_files_only=True)
 model.eval()
 print("Модель загружена")
 
-# ====================================================
 # Функция предсказания
-# ====================================================
 def predict_image(image_path):
     image = Image.open(image_path).convert("RGB")
     inputs = processor(images=image, return_tensors="pt")
@@ -78,9 +68,7 @@ def predict_image(image_path):
     results = [(class_names[idx], float(prob)) for idx, prob in zip(top3_indices, top3_probs)]
     return results
 
-# ====================================================
 # GUI приложения
-# ====================================================
 class App:
     def __init__(self, root):
         self.root = root
@@ -213,9 +201,7 @@ class App:
             
             self.status.config(text="Готов")
 
-# ====================================================
 # Запуск приложения
-# ====================================================
 if __name__ == "__main__":
     root = tk.Tk()
     app = App(root)
